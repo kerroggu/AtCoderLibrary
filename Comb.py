@@ -36,13 +36,3 @@ def comb(x,y):
         return 0
     else:
         return fact(x)*invfact(x-y)*invfact(y)%mo
-
-'''
-fill_invfact(10**4)
-m=10**4-2
-b=fact(m)
-c=invfact(m)
-print(b,c,c*b%mo)
-print(comb(5,2))
-print(comb(10**3,5*10**2))
-'''
