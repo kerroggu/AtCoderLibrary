@@ -38,10 +38,33 @@ class Bit:
                 x+=k
             k//=2
         return x+1
-
+        
+    def u_bound(self,w):
+        if w<=0:
+            return 0
+        x=0
+        k=2**self.m
+        while k>0:
+            if x+k<self.size and self.arr[x+k]<=w:
+                w-=self.arr[x+k]
+                x+=k
+            k//=2
+        return x+1
         
 class Bit0(Bit):
     def add(self,j,x):
         super().add(j+1,x)
     def l_bound(self,w):
         return max(super().l_bound(w)-1,0)
+    def u_bound(self,w):
+        return max(super().u_bound(w)-1,0)
+
+class Multiset(Bit0):
+    def __init__(self,max_v):
+        super().__init__(max_v)
+    def insert(self,x):
+        super().add(x,1)
+    def find(self,x):
+        return super().l_bound(super().sum(x))
+    def __str__(self):
+        return str(self.arr)
