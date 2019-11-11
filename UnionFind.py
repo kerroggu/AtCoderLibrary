@@ -29,12 +29,3 @@ class UnionFind:
                 self.table[r1] -= 1
         else:
             self.table[r1] = r2
- 
- 
-if __name__ == '__main__':
-    ins = UnionFind(4)
-    ins.union(0, 1)
-    ins.union(2, 3)
-    print(ins.find(0, 3))  # False
-    ins.union(1, 2)
-    print(ins.find(0, 3))  # True
