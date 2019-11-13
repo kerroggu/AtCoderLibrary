@@ -1,38 +1,27 @@
-import sys
-sys.setrecursionlimit(10**7)
-mo=10**9+7
-n=10**5
+class Comb:
+    def __init__(self,n,mo=10**9+7):
+        self.fac=[0]*(n+1)
+        self.inv=[1]*(n+1)
+        self.fac[0]=1
+        self.fact(n)
+        for i in range(2,n+1):
+            self.inv[n]*=i
+            self.inv[n]%=mo
+        self.inv[n]=pow(self.inv[n],mo-2,mo)
+        for i in range(1,n):
+            self.inv[n-i]=self.inv[n-i+1]*(n-i+1)%mo
+        return
+    
+    def fact(self,n):
+        if self.fac[n]!=0:
+            return self.fac[n]
+        self.fac[n]=n*self.fact(n-1)%mo
+        return self.fac[n]
 
-fct=[0]*n
-invfct=[0]*n
-fct[0]=1
-invfct[0]=1
+    def invf(self,n):
+        return self.inv[n]
 
-def bi_pow(x,y):
-    if y==1:
-        return x%mo
-    if y%2==0:
-        return bi_pow(x,y//2)**2%mo
-    else:
-        return x*(bi_pow(x,y//2)**2)%mo
-
-def fact(n):
-    rt=fct[n]
-    if rt!=0:
-        return rt
-    return n*fact(n-1)%mo
-
-def invfact(n):
-    invfct[n]=bi_pow(fact(n),mo-2)
-    return invfct[n]
-
-def fill_invfact(n):
-    invfct[n]=invfact(n)
-    for i in range(1,n):
-        invfct[n-i]=invfct[n-i+1]*(n-i-1)%mo
-
-def comb(x,y):
-    if y<0 or y>x:
-        return 0
-    else:
-        return fact(x)*invfact(x-y)*invfact(y)%mo
+    def comb(self,x,y):
+        if y<0 or y>x:
+            return 0
+        return self.fac[x]*self.inv[x-y]*self.inv[y]%mo
