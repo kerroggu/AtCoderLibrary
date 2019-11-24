@@ -15,8 +15,8 @@ while ok-ng>1:
     mid=(ok+ng)//2
     fl=check(mid)
     if fl:
-        ok=mid
-    else:
         ng=mid
+    else:
+        ok=mid
 
 # ok is the least value which satisfies the condition
