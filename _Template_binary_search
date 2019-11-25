@@ -1,22 +1,20 @@
-def check(z):
-    c=0
-    k=1
-    if c<k:
+# function to check if x satisfies the condition
+def check(x):
+    if x==condition:
         rt=True
     else:
         rt=False
     return rt
 
 # initial value
-ng=-1
-ok=10**12
+ok=0
+ng=10**2
 
-while ok-ng>1:
+while abs(ok-ng)>1:
     mid=(ok+ng)//2
-    fl=check(mid)
-    if fl:
-        ng=mid
-    else:
+    if check(mid):
         ok=mid
+    else:
+        ng=mid
 
-# ok is the least value which satisfies the condition
+# [ ok | ng ] is the boundary of the condition
