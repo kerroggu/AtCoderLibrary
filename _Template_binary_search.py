@@ -8,7 +8,7 @@ def check(x):
 
 # initial value
 ok=0
-ng=10**2
+ng=10**12
 
 while abs(ok-ng)>1:
     mid=(ok+ng)//2
