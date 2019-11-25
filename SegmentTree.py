@@ -1,27 +1,23 @@
 ## Segment Tree ##
 
 ## Initializer Template ##
-# Range Sum:        sg=SegTree(n,0)
-# Range Minimum:    sg=SegTree(n,inf,min,float('inf'))
+# Range Sum:        sg=SegTree(n)
+# Range Minimum:    sg=SegTree(n,inf,min,inf)
 
 class SegTree:
-    seg=[]
-    num=0  # num:n以上の最小の2のべき乗
-    ide_ele=0  # 単位元
-    def segfun():
-        return
 
-    def __init__(self,n,init_val,segfun=sum,ide=0):
-        self.ide_ele=ide
-        self.num =2**(n-1).bit_length()
-        self.seg=[self.ide_ele]*2*self.num
-        self.segfun=segfun
+    def __init__(self,n,init_val=0,function=lambda a,b:a+b,ide=0):
+        self.n=n
+        self.ide_ele=ide_ele=ide
+        self.num=num=2**(n-1).bit_length()
+        self.seg=seg=[self.ide_ele]*2*self.num
+        self.segfun=segfun=function
         #set_val
         for i in range(n):
             self.seg[i+self.num-1]=init_val
         #built
         for i in range(self.num-2,-1,-1) :
-            self.seg[i]=segfun(self.seg[2*i+1],self.seg[2*i+2]) 
+            self.seg[i]=self.segfun(self.seg[2*i+1],self.seg[2*i+2]) 
     
     def update(self,k,x):
         k += self.num-1
@@ -49,3 +45,8 @@ class SegTree:
         else:
             res = self.segfun(self.segfun(res,self.seg[p]),self.seg[q])
         return res
+
+    def __str__(self):
+        # 生配列を表示
+        rt=self.seg[self.num-1:self.num-1+self.n]
+        return str(rt)
