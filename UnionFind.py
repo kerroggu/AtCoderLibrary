@@ -29,3 +29,7 @@ class UnionFind:
                 self.table[r1] -= 1
         else:
             self.table[r1] = r2
+    
+    def __str__(self):
+        rt=[i if j<0 else j for i,j in enumerate(self.table)]
+        return str(rt)
