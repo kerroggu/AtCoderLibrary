@@ -11,13 +11,14 @@ class SegTree:
         self.ide_ele=ide_ele=ide
         self.num=num=2**(n-1).bit_length()
         self.seg=seg=[self.ide_ele]*2*self.num
+        self.lazy=lazy=[self.ide_ele]*2*self.num
         self.segfun=segfun=function
         #set_val
         for i in range(n):
             self.seg[i+self.num-1]=init_val
         #built
-        for i in range(self.num-2,-1,-1) :
-            self.seg[i]=self.segfun(self.seg[2*i+1],self.seg[2*i+2]) 
+        for i in range(self.num-2,-1,-1):
+            self.seg[i]=self.segfun(self.seg[2*i+1],self.seg[2*i+2])
     
     def update(self,k,x):
         k += self.num-1
@@ -25,6 +26,16 @@ class SegTree:
         while k:
             k = (k-1)//2
             self.seg[k] = self.segfun(self.seg[k*2+1],self.seg[k*2+2])
+        
+        
+    def evaluate(k,l,r): #遅延評価処理
+        if lazy[k]!=0:
+            node[k]+=lazy[k]
+            if(r-l>1):
+                lazy[2*k+1]+=lazy[k]//2
+                lazy[2*k+2]+=lazy[k]//2
+
+        lazy[k]=0
         
     def query(self,p,q):
         if q<=p:
