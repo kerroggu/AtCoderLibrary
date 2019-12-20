@@ -1,3 +1,4 @@
+# 計算量 O(VE)
 def BellmanFord(graph,num_v,source=0):
     # graph = 隣接リスト g[source]=[(destination, dist),...]
     # edgeの初期化 edge = [(source,destination,dist),...]
