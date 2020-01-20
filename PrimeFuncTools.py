@@ -1,5 +1,7 @@
 
-def primeFactor(N):  # return prime factors of N as dictionary {prime p:power of p}
+## return prime factors of N as dictionary {prime p:power of p}
+## within 2 sec for N = 2*10**20+7
+def primeFactor(N):
     i,n=2,N
     ret={}
     d,sq=2,99
@@ -17,18 +19,25 @@ def primeFactor(N):  # return prime factors of N as dictionary {prime p:power of
         ret[n]=1
     return ret
 
-def PrimeNumSet(N):  # return the list of prime numbers in [2,N], using eratosthenes sieve
-    max = int(N**0.5+1)
+
+## return the list of prime numbers in [2,N], using eratosthenes sieve
+## within 2sec for N = 1.2*10**7
+def PrimeNumSet(N):
+    Max = int(N**0.5)
     seachList = [i for i in range(2,N+1)]
     primeNum = []
-    while seachList[0] <= max:
+    while seachList:
+        if seachList[0] <= Max:
+            break
         primeNum.append(seachList[0])
         tmp = seachList[0]
         seachList = [i for i in seachList if i % tmp != 0]
     primeNum.extend(seachList)
     return primeNum
 
-def LCM(b,mo=10**9+7):  # retrun LCM of numbers in list b
+## retrun LCM of numbers in list b
+## within 2sec for no of B = 10*5  and  Bi < 10**6
+def LCM(b,mo=10**9+7):
     prs=PrimeNumSet(max(b))
     M=dict(zip(prs,[0]*len(prs)))
     for i in b:
