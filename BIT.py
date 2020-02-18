@@ -10,7 +10,8 @@ class Bit:
         self.arr=[0]*(2**self.m+1)
         
     def __str__(self):
-        return str(self.arr)
+        a=[self.sum(i+1)-self.sum(i) for i in range(self.size)]
+        return str(a)
         
     def add(self,i,x):
         k=0
