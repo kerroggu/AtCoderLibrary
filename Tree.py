@@ -5,9 +5,9 @@
 # Tree(init=False); Tree.listin(); => (a,b);*(n-1)
 
 class Tree:
-    def __init__(self,init=True):
+    def __init__(self,inp_size=None,init=True):
         if init:
-            self.stdin()
+            self.stdin(inp_size)
         return
 
     def stdin(self,inp_size=None):
@@ -20,16 +20,13 @@ class Tree:
     
     def listin(self,ls):
         self.size=len(ls)+1
-        self.edges=[[]for i in range(self.size)]
-        for a,b in ls:
-            self.edges[a].append(b)
-            self.edges[b].append(a)
+        self.edges,_=GI(self.size,self.size-1,ls)
         return
 
     def __str__(self):
         return  str(self.edges)
 
-    def dfs(self,x,func=lambda x,y:x+1,root_v=0):
+    def dfs(self,x,func=lambda prv,nx,dist:prv+dist,root_v=0):
         q=deque()
         q.append(x)
         v=[-1]*self.size
@@ -37,9 +34,12 @@ class Tree:
         while q:
             c=q.pop()
             for nb in self.edges[c]:
+                d=1
+                if type(nb) is not int:
+                    nb,d=nb
                 if v[nb]==-1:
                     q.append(nb)
-                    v[nb]=func(v[c],nb)
+                    v[nb]=func(v[c],nb,d)
         return v
 
     def EulerTour(self,x,func=lambda x:x+1,root_v=0):
