@@ -33,16 +33,13 @@ class Tree:
         v[x]=root_v
         while q:
             c=q.pop()
-            for nb in self.edges[c]:
-                d=1
-                if type(nb) is not int:
-                    nb,d=nb
+            for nb,d in self.edges[c]:
                 if v[nb]==-1:
                     q.append(nb)
                     v[nb]=func(v[c],nb,d)
         return v
 
-    def EulerTour(self,x,func=lambda x:x+1,root_v=0):
+    def EulerTour(self,x,func=lambda prv,nx,dist:prv+dist,root_v=0):
         q=deque()
         q.append((-1,x))
         v=[None]*self.size
@@ -51,11 +48,11 @@ class Tree:
         while q:
             cb,ce=q.pop()
             et.append(ce)
-            for nb in self.edges[ce]:
+            for nb,d in self.edges[ce]:
                 if v[nb]==None:
                     q.append((nb,ce))
                     q.append((ce,nb))
-                    v[nb]=func(v[ce])
+                    v[nb]=func(v[ce],nb,d)
         vid=[[-1,-1]for i in range(self.size)]
         for i,j in enumerate(et):
             if vid[j][0]==-1:
