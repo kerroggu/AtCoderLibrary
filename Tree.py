@@ -1,3 +1,9 @@
+# initialize
+# Tree() => n; (a,b);*(n-1)
+# Tree(n) => (a,b);*(n-1)
+# Tree(init=False); Tree.stdin(); => n; (a,b);*(n-1)
+# Tree(init=False); Tree.listin(); => (a,b);*(n-1)
+
 class Tree:
     def __init__(self,init=True):
         if init:
@@ -23,7 +29,7 @@ class Tree:
     def __str__(self):
         return  str(self.edges)
 
-    def dfs(self,x,func=lambda x:x+1,root_v=0):
+    def dfs(self,x,func=lambda x,y:x+1,root_v=0):
         q=deque()
         q.append(x)
         v=[-1]*self.size
@@ -33,7 +39,7 @@ class Tree:
             for nb in self.edges[c]:
                 if v[nb]==-1:
                     q.append(nb)
-                    v[nb]=func(v[c])
+                    v[nb]=func(v[c],nb)
         return v
 
     def EulerTour(self,x,func=lambda x:x+1,root_v=0):
