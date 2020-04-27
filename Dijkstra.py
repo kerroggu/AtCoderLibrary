@@ -4,17 +4,17 @@ def dijkstra(edge,st):
     # edge=[[(v_to,dist_to_v),...],[],...]
     # initialize: def: d=dist(st,i), prev=[previous vertex in minimum path], q[]
     n=len(edge)
-    d=[(0 if st==i else 1<<33) for i in range(n)]
+    d=[(0 if st==i else inf) for i in range(n)]
     prev=[0]*n
     q=[(j,i) for i,j in enumerate(d)]
     heapify(q)
-    remain=set(range(n))
+    v=[False]*n
     # calc
     while q:
         dist,cur=heappop(q)
-        if cur not in remain:
+        if v[cur]:
             continue
-        remain.remove(cur)
+        v[cur]=True
         for dst,dist in edge[cur]:
             alt=d[cur]+dist
             if alt<d[dst]:
