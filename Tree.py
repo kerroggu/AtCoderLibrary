@@ -1,3 +1,4 @@
+# import SparseTable
 # initialize
 # Tree() => n; (a,b);*(n-1)
 # Tree(n) => (a,b);*(n-1)
@@ -6,6 +7,7 @@
 
 class Tree:
     def __init__(self,inp_size=None,init=True):
+        self.LCA_init_stat=False
         if init:
             self.stdin(inp_size)
         return
@@ -59,17 +61,23 @@ class Tree:
                 vid[j][0]=i
             else:
                 vid[j][1]=i
+        self.ETtable=et[:]
+        self.ETdepth=[v[i] for i in et]
+        self.ETid=vid[:]
         return v,et,vid
     
-    def LCA_init(self,depth,et):
-        self.st=SegTree(self.size*2-1,func=min,ide=inf)
-        for i,j in enumerate(et):
-            self.st.update(i,j)
+    def LCA_init(self,root):
+        self.st=SparseTable(self.ETdepth,init_func=min,init_idl=inf)
         self.LCA_init_stat==True
         return
     
     def LCA(self,root,x,y):
         if self.LCA_init_stat==False:
-            depth,et,vid=self.EulerTour(root)
-            self.LCA_init(depth,et)
-        return self.st.query(x,y+1)
+            self.EulerTour(root,func=lambda prv,nx,dist:prv+dist,root_v=0)
+            self.LCA_init(root)
+        xin,xout=self.ETid[x]
+        yin,yout=self.ETid[y]
+        a=min(xin,yin)
+        b=max(xout,yout,xin,yin)
+        id_of_min_dep_in_et=self.st.query_id(a,b+1)
+        return self.ETtable[id_of_min_dep_in_et]
