@@ -67,13 +67,13 @@ class Tree:
         return v,et,vid
     
     def LCA_init(self,root):
+        self.EulerTour(root,func=lambda prv,nx,dist:prv+dist,root_v=0)
         self.st=SparseTable(self.ETdepth,init_func=min,init_idl=inf)
-        self.LCA_init_stat==True
+        self.LCA_init_stat=True
         return
     
     def LCA(self,root,x,y):
         if self.LCA_init_stat==False:
-            self.EulerTour(root,func=lambda prv,nx,dist:prv+dist,root_v=0)
             self.LCA_init(root)
         xin,xout=self.ETid[x]
         yin,yout=self.ETid[y]
