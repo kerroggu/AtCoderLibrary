@@ -6,6 +6,10 @@ class SparseTable: # O(N log N) for init, O(1) for query(l,r)
         self.N0=self.size.bit_length()
         self.table=[ls[:]]
         self.index=[list(range(self.size))]
+        self.lg=[0]*(self.size+1)
+        
+        for i in range(2,self.size+1):
+            self.lg[i]=self.lg[i>>1]+1
 
         for i in range(self.N0):
             tmp=[self.func(self.table[i][j],self.table[i][min(j+(1<<i),self.size-1)]) for j in range(self.size)]
@@ -15,12 +19,14 @@ class SparseTable: # O(N log N) for init, O(1) for query(l,r)
     
     # return func of [l,r)
     def query(self,l,r):
-        N=(r-l).bit_length()-1
+        #N=(r-l).bit_length()-1
+        N=self.lg[r-l]
         return self.func(self.table[N][l],self.table[N][r-(1<<N)])
     
     # return index of which val[i] = func of v among [l,r)
     def query_id(self,l,r):
-        N=(r-l).bit_length()-1
+        #N=(r-l).bit_length()-1
+        N=self.lg[r-l]
         a,b=self.index[N][l],self.index[N][r-(1<<N)]
         if self.table[0][a]==self.func(self.table[N][l],self.table[N][r-(1<<N)]):
             b=a
