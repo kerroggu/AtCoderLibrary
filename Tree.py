@@ -12,17 +12,17 @@ class Tree:
             self.stdin(inp_size)
         return
 
-    def stdin(self,inp_size=None):
+    def stdin(self,inp_size=None,index=1):
         if inp_size==None:
             self.size=int(input())
         else:
             self.size=inp_size
-        self.edges,_=GI(self.size,self.size-1)
+        self.edges,_=GI(self.size,self.size-1,index=index)
         return
     
-    def listin(self,ls):
+    def listin(self,ls,index=0):
         self.size=len(ls)+1
-        self.edges,_=GI(self.size,self.size-1,ls)
+        self.edges,_=GI(self.size,self.size-1,ls,index=index)
         return
 
     def __str__(self):
@@ -44,17 +44,17 @@ class Tree:
     def EulerTour(self,x,func=lambda prv,nx,dist:prv+dist,root_v=0):
         q=deque()
         q.append((-1,x))
-        v=[None]*self.size
-        v[x]=root_v
+        depth=[None]*self.size
+        depth[x]=root_v
         et=[]
         while q:
             cb,ce=q.pop()
             et.append(ce)
             for nb,d in self.edges[ce]:
-                if v[nb]==None:
+                if depth[nb]==None:
                     q.append((nb,ce))
                     q.append((ce,nb))
-                    v[nb]=func(v[ce],nb,d)
+                    depth[nb]=func(depth[ce],nb,d)
         vid=[[-1,-1]for i in range(self.size)]
         for i,j in enumerate(et):
             if vid[j][0]==-1:
@@ -62,9 +62,9 @@ class Tree:
             else:
                 vid[j][1]=i
         self.ETtable=et[:]
-        self.ETdepth=[v[i] for i in et]
+        self.ETdepth=[depth[i] for i in et]
         self.ETid=vid[:]
-        return v,et,vid
+        return depth,et,vid
     
     def LCA_init(self,root):
         self.EulerTour(root,func=lambda prv,nx,dist:prv+dist,root_v=0)
