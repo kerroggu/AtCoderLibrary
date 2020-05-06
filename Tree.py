@@ -8,6 +8,7 @@
 class Tree:
     def __init__(self,inp_size=None,init=True):
         self.LCA_init_stat=False
+        self.ETtable=[]
         if init:
             self.stdin(inp_size)
         return
@@ -41,30 +42,35 @@ class Tree:
                     v[nb]=func(v[c],nb,d)
         return v
 
-    def EulerTour(self,x,func=lambda prv,nx,dist:prv+dist,root_v=0):
+    def EulerTour(self,x,func=lambda prv,nx,dist:prv+1,root_v=0):
         q=deque()
-        q.append((-1,x))
+        q.append(x)
         depth=[None]*self.size
         depth[x]=root_v
-        et=[]
+        self.ETtable=[]
+        self.ETdepth=[]
+        self.ETin=[-1]*self.size
+        self.ETout=[-1]*self.size
+        cnt=0
         while q:
-            cb,ce=q.pop()
-            et.append(ce)
-            for nb,d in self.edges[ce]:
-                if depth[nb]==None:
-                    q.append((nb,ce))
-                    q.append((ce,nb))
-                    depth[nb]=func(depth[ce],nb,d)
-        vid=[[-1,-1]for i in range(self.size)]
-        for i,j in enumerate(et):
-            if vid[j][0]==-1:
-                vid[j][0]=i
+            c=q.pop()
+            if c<0:
+                ce=~c
             else:
-                vid[j][1]=i
-        self.ETtable=et[:]
-        self.ETdepth=[depth[i] for i in et]
-        self.ETid=vid[:]
-        return depth,et,vid
+                ce=c
+                for nb,d in self.edges[ce]:
+                    if depth[nb]==None:
+                        q.append(~ce)
+                        q.append(nb)
+                        depth[nb]=depth[ce]+1
+            self.ETtable.append(ce)
+            self.ETdepth.append(depth[ce])
+            if self.ETin[ce]==-1:
+                self.ETin[ce]=cnt
+            else:
+                self.ETout[ce]=cnt
+            cnt+=1
+        return depth
     
     def LCA_init(self,root):
         self.EulerTour(root,func=lambda prv,nx,dist:prv+dist,root_v=0)
@@ -75,8 +81,8 @@ class Tree:
     def LCA(self,root,x,y):
         if self.LCA_init_stat==False:
             self.LCA_init(root)
-        xin,xout=self.ETid[x]
-        yin,yout=self.ETid[y]
+        xin,xout=self.ETin[x],self.ETout[x]
+        yin,yout=self.ETin[y],self.ETout[y]
         a=min(xin,yin)
         b=max(xout,yout,xin,yin)
         id_of_min_dep_in_et=self.st.query_id(a,b+1)
