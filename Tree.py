@@ -42,11 +42,11 @@ class Tree:
                     v[nb]=func(v[c],nb,d)
         return v
 
-    def EulerTour(self,x,func=lambda prv,nx,dist:prv+1,root_v=0):
+    def EulerTour(self,x):
         q=deque()
         q.append(x)
-        depth=[None]*self.size
-        depth[x]=root_v
+        self.depth=[None]*self.size
+        self.depth[x]=0
         self.ETtable=[]
         self.ETdepth=[]
         self.ETin=[-1]*self.size
@@ -59,21 +59,21 @@ class Tree:
             else:
                 ce=c
                 for nb,d in self.edges[ce]:
-                    if depth[nb]==None:
+                    if self.depth[nb]==None:
                         q.append(~ce)
                         q.append(nb)
-                        depth[nb]=depth[ce]+1
+                        self.depth[nb]=self.depth[ce]+1
             self.ETtable.append(ce)
-            self.ETdepth.append(depth[ce])
+            self.ETdepth.append(self.depth[ce])
             if self.ETin[ce]==-1:
                 self.ETin[ce]=cnt
             else:
                 self.ETout[ce]=cnt
             cnt+=1
-        return depth
+        return
     
     def LCA_init(self,root):
-        self.EulerTour(root,func=lambda prv,nx,dist:prv+dist,root_v=0)
+        self.EulerTour(root)
         self.st=SparseTable(self.ETdepth,init_func=min,init_idl=inf)
         self.LCA_init_stat=True
         return
