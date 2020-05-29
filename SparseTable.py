@@ -37,6 +37,7 @@ class SparseTable: # O(N log N) for init, O(1) for query(l,r)
             b=a
         return b
     
+    # return boundary index of r such that func({table[i]} =< x , i in [pos,r]
     def right_bound(self,pos,x):
         k=(self.size-pos).bit_length()
         for j in range(k)[::-1]:
@@ -45,6 +46,7 @@ class SparseTable: # O(N log N) for init, O(1) for query(l,r)
                 pos+=(1<<j)
         return pos
     
+    # return boundary index of l such that func({table[i]} =< x , i in [l,pos]
     def left_bound(self,pos,x):
         k=pos.bit_length()
         for j in range(k)[::-1]:
