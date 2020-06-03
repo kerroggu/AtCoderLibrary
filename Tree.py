@@ -3,16 +3,20 @@
 # Tree() => n; (a,b);*(n-1)
 # Tree(n) => (a,b);*(n-1)
 # Tree(init=False); Tree.stdin(); => n; (a,b);*(n-1)
-# Tree(init=False); Tree.listin(); => (a,b);*(n-1)
+# Tree(init=False); Tree.listin(ls,index=0); => (a,b);*(n-1)
 
 class Tree:
-    def __init__(self,inp_size=None,init=True):
+    def __init__(self,inp_size=None,ls=None,init=True,index=1):
         self.LCA_init_stat=False
         self.ETtable=[]
         if init:
-            self.stdin(inp_size)
+            if ls==None:
+                self.stdin(inp_size,index=index)
+            else:
+                self.size=len(ls)+1
+                self.edges,_=GI(self.size,self.size-1,ls,index=index)
         return
-
+ 
     def stdin(self,inp_size=None,index=1):
         if inp_size==None:
             self.size=int(input())
@@ -26,21 +30,46 @@ class Tree:
         self.edges,_=GI(self.size,self.size-1,ls,index=index)
         return
 
-    def __str__(self):
-        return  str(self.edges)
-
-    def dfs(self,x,func=lambda prv,nx,dist:prv+dist,root_v=0):
-        q=deque()
-        q.append(x)
-        v=[-1]*self.size
+    def dfs(self,x,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
+        q=deque([x])
+        v=[None]*self.size
         v[x]=root_v
         while q:
             c=q.pop()
             for nb,d in self.edges[c]:
-                if v[nb]==-1:
+                if v[nb]==None:
                     q.append(nb)
-                    v[nb]=func(v[c],nb,d)
+                    v[nb]=func(c,v[c],nb,d)
         return v
+
+    def bfs(self,x,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
+        q=deque([x])
+        v=[None]*self.size
+        v[x]=root_v
+        while q:
+            c=q.popleft()
+            for nb,d in self.edges[c]:
+                if v[nb]==None:
+                    q.append(nb)
+                    v[nb]=func(c,v[c],nb,d)
+        return v
+
+    def parent(self,x):
+        return self.dfs(0,func=lambda pr,prv,nx,dist:pr,root_v=-1)
+
+    def topological_sort(self,x):  # return topological sort of the tree
+        tps=[]
+        q=deque([x])
+        v=[None]*self.size
+        v[x]=0
+        while q:
+            c=q.popleft()
+            tps.append(c)
+            for nb,d in self.edges[c]:
+                if v[nb]==None:
+                    q.append(nb)
+                    v[nb]=0
+        return tps
 
     def EulerTour(self,x):
         q=deque()
@@ -75,6 +104,7 @@ class Tree:
     def LCA_init(self,root):
         self.EulerTour(root)
         self.st=SparseTable(self.ETdepth,init_func=min,init_idl=inf)
+        #self.st=SegTree(self.size*2-1,self.ETdepth,function=min,ide=inf)
         self.LCA_init_stat=True
         return
     
@@ -87,3 +117,12 @@ class Tree:
         b=max(xout,yout,xin,yin)
         id_of_min_dep_in_et=self.st.query_id(a,b+1)
         return self.ETtable[id_of_min_dep_in_et]
+
+    def __str__(self):
+        return  str(self.edges)
+
+    def show(self):
+        if all([all([d==1 for nd,d in edge]) for edge in self.edges]):
+            print( [[nd for nd,d in edge] for edge in self.edges] )
+        else:
+            print(self)
