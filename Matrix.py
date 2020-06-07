@@ -1,3 +1,12 @@
+## Verified by Yukicoder 1073
+## https://yukicoder.me/problems/no/1073
+##
+## Matrix Classs supporting operators +, -, *, %, +=, -=, *=, %=
+## *, *= allows int/float/complex
+## % or pow(self,p,mod) is implemented by Repeated squaring
+##
+## Cnstructor: matrix(array), where array is 1D or 2D array. 1-dimensional array X is modified as 2D array of [X].
+
 class matrix:
     class MulShapeError(Exception):
         "mult is not applicable between the two matrices given"
@@ -46,9 +55,6 @@ class matrix:
 
     def __isub__(self,B):
         return self.__sub__(B)
-
-    def __str__(self):
-        return str(self.arr)
 
     def __mul__(self,M):
         if type(M) in [int,float,complex]:
@@ -107,8 +113,19 @@ class matrix:
                 R*=A
                 R%=mod
             A*=A
+            A%=mod
             p>>=1
         return R
 
     def __neg__(self):
         return self.__mul__(-1)
+
+    def __str__(self):
+        rt='['
+        for i in self.arr:
+            rt=rt+str(i)+",\n"
+        return rt[:-2]+']'
+
+    def print(self):
+        for i in self.arr:
+            print(i)
