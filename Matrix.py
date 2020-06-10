@@ -1,11 +1,16 @@
 ## Verified by Yukicoder 1073
 ## https://yukicoder.me/problems/no/1073
 ##
-## Matrix Classs supporting operators +, -, *, %, +=, -=, *=, %=
+## Matrix Class supporting operators +, -, *, %, +=, -=, *=, %=
 ## *, *= allows int/float/complex
-## % or pow(self,p,mod) is implemented by Repeated squaring
+## ** or pow(self,p,mod) for the size N*N matrix is implemented by Repeated squaring. O(N^3*log(p))
 ##
-## Cnstructor: matrix(array), where array is 1D or 2D array. 1-dimensional array X is modified as 2D array of [X].
+## Constructor: matrix(array), where array is 1D or 2D array. 1-dimensional array X is modified as 2D array of [X].
+##
+## methods
+## T(): returns transposed matrix
+## resize((n,m),fill=0): changes the matrix instance into the new shape (n * m), missing entries are filled with "fill" (default value is zero).
+
 
 class matrix:
     class MulShapeError(Exception):
@@ -62,7 +67,7 @@ class matrix:
         if type(M)!=matrix:
             return NotImplemented
         if M.shape[0]!=self.shape[1]:
-            raise matrix.MulShapeError("mult is not applicable between the matrix shape "+str(self.shape)+" and "+str(M.shape))
+            raise matrix.MulShapeError("mult is not applicable between the matrices of shape "+str(self.shape)+" and "+str(M.shape))
         ra,ca=self.shape
         rb,cb=M.shape
         c=[[0]*cb for i in range(ra)]
@@ -126,6 +131,28 @@ class matrix:
             rt=rt+str(i)+",\n"
         return rt[:-2]+']'
 
-    def print(self):
+    def T(self):
+        rt=[[0]*self.shape[0] for i in range(self.shape[1])]
+        for i in range(self.shape[0]):
+            for j in range(self.shape[1]):
+                rt[j][i]=self.arr[i][j]
+        return matrix(rt)
+
+    def resize(self,new_shape,fill=0):
+        t_arr=[]
+        for i in self.arr:
+            t_arr+=i
+        t_arr.reverse()
+        n,m=new_shape
+        self.shape=(n,m)
+        self.arr=[[fill]*m for i in range(n)]
+
+        for i in range(self.shape[0]):
+            for j in range(self.shape[1]):
+                if t_arr:
+                    self.arr[i][j]=t_arr.pop()
+        return
+
+    def view(self):
         for i in self.arr:
             print(i)
