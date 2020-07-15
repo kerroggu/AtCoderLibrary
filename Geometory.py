@@ -1,12 +1,14 @@
 # Library for Geometory
 # tested by https://atcoder.jp/contests/ttpc2015/tasks/ttpc2015_h
+# tested by https://atcoder.jp/contests/abc151/tasks/abc151_f
 
 # Sample usage
-# p=[(x[i],y[i]) for i in range(n)]
 #
-# CrossProduct(*p[1],*p[2]) : returns cross product of vectors (x1,y1),(x2,y2) = x1*y2-x2*y1
-# IsInside(a,b,*p[i],*p[j],*p[k]) : returns if (a,b) inside the triangle with verteces (xi,yi),(xj,yj),(xk,yk)
-# Surface(*p[i],*p[j],*p[k])) : returns the area of the triangle with verteces (xi,yi),(xj,yj),(xk,yk)
+# CrossProduct(x1,y1,x2,y2) : returns cross product of vectors (x1,y1),(x2,y2) = x1*y2-x2*y1
+# IsInside(a,b,x1,y1,x2,y2,x3,y3) : returns if (a,b) inside the triangle with verteces (x1,y1),(x2,y2),(x3,y3)
+# Surface(x1,y1,x2,y2,x3,y3) : returns the area of the triangle with verteces (x1,y1),(x2,y2),(x3,y3)
+# Center_of_3points(x1,y1,x2,y2,x3,y3): returns the center of the 3 points and the distance
+# Rotate2D(x,y,q): rotate (x,y) by q (radian) and returns the coordinates
 
 
 def CrossProduct(x1,y1,x2,y2):
@@ -31,3 +33,13 @@ def Surface(a1,b1,a2,b2,a3,b3):
     C,D=a3-a1,b3-b1
     return abs(A*D-B*C)/2
 
+def Center_of_3points(x1,y1,x2,y2,x3,y3):
+    cx = ((y1-y3)*(y1**2 -y2**2 +x1**2 -x2**2) -(y1-y2)*(y1**2 -y3**2 +x1**2 -x3**2)) / (2*(y1-y3)*(x1-x2)-2*(y1-y2)*(x1-x3))
+    cy = ((x1-x3)*(x1**2 -x2**2 +y1**2 -y2**2) -(x1-x2)*(x1**2 -x3**2 +y1**2 -y3**2)) / (2*(x1-x3)*(y1-y2)-2*(x1-x2)*(y1-y3))
+    r=((x1-cx)**2+(y1-cy)**2)
+    return cx,cy,r
+ 
+def Rotate2D(x,y,q):
+    s=x*math.cos(q)-y*math.sin(q)
+    t=x*math.sin(q)+y*math.cos(q)
+    return (s,t)
