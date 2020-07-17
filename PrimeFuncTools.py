@@ -1,3 +1,5 @@
+# Verified by
+# https://yukicoder.me/problems/no/979
 
 ## return prime factors of N as dictionary {prime p:power of p}
 ## within 2 sec for N = 2*10**20+7
@@ -19,6 +21,12 @@ def primeFactor(N):
         ret[n]=1
     return ret
 
+## return divisors of n as list
+def divisor(n):
+    div=[1]
+    for i,j in primeFactor(n).items():
+        div=[(i**k)*d for d in div for k in range(j+1)]
+    return div
 
 ## return the list of prime numbers in [2,N], using eratosthenes sieve
 ## within 2sec for N = 1.2*10**7
