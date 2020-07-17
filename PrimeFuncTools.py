@@ -1,5 +1,7 @@
+########################################################################################################################################################################
 # Verified by
 # https://yukicoder.me/problems/no/979
+# https://atcoder.jp/contests/abc152/tasks/abc152_e
 
 ## return prime factors of N as dictionary {prime p:power of p}
 ## within 2 sec for N = 2*10**20+7
@@ -30,7 +32,7 @@ def divisor(n):
 
 ## return the list of prime numbers in [2,N], using eratosthenes sieve
 ## around 800 ms for N = 10**6  by PyPy3 (7.3.0) @ AtCoder
-def primesSet(N):
+def PrimeNumSet(N):
     M=int(N**0.5)
     seachList=[i for i in range(2,N+1)]
     primes=[]
