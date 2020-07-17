@@ -29,19 +29,19 @@ def divisor(n):
     return div
 
 ## return the list of prime numbers in [2,N], using eratosthenes sieve
-## within 2sec for N = 1.2*10**7
-def PrimeNumSet(N):
-    Max = int(N**0.5)
-    seachList = [i for i in range(2,N+1)]
-    primeNum = []
+## around 800 ms for N = 10**6  by PyPy3 (7.3.0) @ AtCoder
+def primesSet(N):
+    M=int(N**0.5)
+    seachList=[i for i in range(2,N+1)]
+    primes=[]
     while seachList:
-        if seachList[0] <= Max:
+        if seachList[0]>M:
             break
-        primeNum.append(seachList[0])
-        tmp = seachList[0]
-        seachList = [i for i in seachList if i % tmp != 0]
-    primeNum.extend(seachList)
-    return primeNum
+        primes.append(seachList[0])
+        tmp=seachList[0]
+        seachList=[i for i in seachList if i%tmp!=0]
+    return primes+seachList
+
 
 ## retrun LCM of numbers in list b
 ## within 2sec for no of B = 10*5  and  Bi < 10**6
