@@ -22,3 +22,16 @@ def dijkstra(edge,st):
                 prev[dst]=cur
                 heappush(q,(alt,dst))
     return d,prev
+
+
+def golf_dijkstra():
+ from heapq import*;n,m,k,*t=map(int,open(0).read().split());P=[t[i*3:i*3+3]for i in range(m)];s=t[3*m:];g=[[]for _ in' '*-~n];q=[(0,i)for i in s];v=[1]*-~n
+ for a,b,l in P:g[a]+=(b,l),;g[b]+=(a,l),
+ D=[1e9]*-~n
+ for i in s:D[i]=0
+ while q:
+  d,c=heappop(q)
+  if v[c]:
+   for N,d in g[c]:
+    A=D[c]+d;v[c]=0
+    if A<D[N]:D[N]=A;heappush(q,(A,N))
