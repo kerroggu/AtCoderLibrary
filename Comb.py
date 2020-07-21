@@ -23,3 +23,11 @@ class Comb:
         if y<0 or y>x:
             return 0
         return self.fac[x]*self.inv[x-y]*self.inv[y]%mo
+
+
+def Golf_Comb(x,y,n=10**5,M=10**9+7):
+    M=10**9+7
+    F=[1]
+    for i in range(n):F+=F[i]*-~i%M,
+    C=lambda A,B:F[A]*pow(F[A-B]*F[B],M-2,M)%M
+    return C(x,y)
