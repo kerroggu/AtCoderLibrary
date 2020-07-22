@@ -1,19 +1,24 @@
+########################################################################################################################################################################
 # Binary Indexed Tree
 # Bit.add(i,x)    : add x at i-th value
 # Bit.sum(i)      : get sum up to i-th value
 # Bit.l_bound(w)  : get lower bound of index where w can be inserted
 
 class Bit:
-    def __init__(self,n):
+    def __init__(self,n,init=None):
         self.size=n
         self.m=len(bin(self.size))-2
         self.arr=[0]*(2**self.m+1)
+        if init!=None:
+            for i in range(len(init)):
+                self.add(i,init[i])
         
     def __str__(self):
         a=[self.sum(i+1)-self.sum(i) for i in range(self.size)]
         return str(a)
         
     def add(self,i,x):
+        if i<0:return NotImplemented
         k=0
         while i<=self.size:
             k+=1
@@ -22,12 +27,19 @@ class Bit:
         return
     
     def sum(self,i):
+        if i<0:return NotImplemented
         rt=0
         while i>0:
             rt+=self.arr[i]
             i-=i&(-i)
         return rt
     
+    def __getitem__(self,key):
+        return self.sum(key+1)-self.sum(key)
+
+    def __setitem__(self,key,value):
+        self.add(key,value-self.sum(key+1)+self.sum(key))
+
     def l_bound(self,w):
         if w<=0:
             return 0
@@ -69,3 +81,7 @@ class Multiset(Bit0):
         return super().l_bound(super().sum(x))
     def __str__(self):
         return str(self.arr)
+
+def compress(L):
+    dc={v:i for i,v in enumerate(sorted(set(L)))}
+    return [dc[i] for i in L]
