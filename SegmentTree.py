@@ -1,11 +1,16 @@
+########################################################################################################################################################################
 ## Segment Tree ##
 
 ## Test case: ABC 146 F
 ## https://atcoder.jp/contests/abc146/tasks/abc146_f
+## Test case: EDPC Q
+## https://atcoder.jp/contests/dp/tasks/dp_q
 
 ## Initializer Template ##
 # Range Sum:        sg=SegTree(n)
 # Range Minimum:    sg=SegTree(n,inf,min,inf)
+# Range Maximum:    sg=SegTree(n,-inf,max,-inf)
+# Range GCD:        sg=SegTree(n,0,gcd,0)
 
 class SegTree:
     def __init__(self,n,init_val=0,function=lambda a,b:a+b,ide=0):
@@ -29,7 +34,22 @@ class SegTree:
                 self.index[i]=self.index[i*2+1]
             else:
                 self.index[i]=self.index[i*2+2]
-        
+
+    def __iter__(self):
+        return iter(self.table[self.num-1:self.num-1+self.size])
+
+    def __getitem__(self,key):
+        if type(key) is slice:
+            a=None if key.start==None else key.start
+            b=None if key.stop==None else key.stop
+            c=None if key.step==None else key.step
+            return self.table[self.num-1:self.num-1+self.size][slice(a,b,c)]
+        else:
+            return self.table[key+self.num-1]
+
+    def __setitem__(self,key,value):
+        self.update(key,value)
+
     def update(self,k,x):
         k+=self.num-1
         self.table[k]=x
@@ -104,7 +124,6 @@ class SegTree:
             elif res==self.table[q]:
                 idx=self.index[q]
         return idx
-
 
     def __str__(self):
         # 生配列を表示
