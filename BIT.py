@@ -1,4 +1,8 @@
 ########################################################################################################################################################################
+# Verified by
+# https://atcoder.jp/contests/arc033/submissions/me
+# https://atcoder.jp/contests/abc174/tasks/abc174_f
+#
 # Binary Indexed Tree
 # Bit.add(i,x)    : add x at i-th value
 # Bit.sum(i)      : get sum up to i-th value
@@ -12,22 +16,20 @@ class Bit:
         if init!=None:
             for i in range(len(init)):
                 self.add(i,init[i])
-        
+
     def __str__(self):
         a=[self.sum(i+1)-self.sum(i) for i in range(self.size)]
         return str(a)
         
     def add(self,i,x):
-        if i<0:return NotImplemented
-        k=0
+        if not 0<i<=self.size:return NotImplemented
         while i<=self.size:
-            k+=1
             self.arr[i]+=x
             i+=i&(-i)
         return
     
     def sum(self,i):
-        if i<0:return NotImplemented
+        if not 0<=i<=self.size:return NotImplemented
         rt=0
         while i>0:
             rt+=self.arr[i]
@@ -46,10 +48,10 @@ class Bit:
         x=0
         k=2**self.m
         while k>0:
-            if x+k<self.size and self.arr[x+k]<w:
+            if x+k<=self.size and self.arr[x+k]<w:
                 w-=self.arr[x+k]
                 x+=k
-            k//=2
+            k>>=1
         return x+1
         
     def u_bound(self,w):
@@ -61,7 +63,7 @@ class Bit:
             if x+k<self.size and self.arr[x+k]<=w:
                 w-=self.arr[x+k]
                 x+=k
-            k//=2
+            k>>=1
         return x+1
         
 class Bit0(Bit):
