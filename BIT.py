@@ -60,7 +60,7 @@ class Bit:
         x=0
         k=2**self.m
         while k>0:
-            if x+k<self.size and self.arr[x+k]<=w:
+            if x+k<=self.size and self.arr[x+k]<=w:
                 w-=self.arr[x+k]
                 x+=k
             k>>=1
