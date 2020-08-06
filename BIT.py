@@ -3,19 +3,23 @@
 # https://atcoder.jp/contests/arc033/submissions/me
 # https://atcoder.jp/contests/abc174/tasks/abc174_f
 #
+# speed up TIPS: delete update of el. non-use of getitem, setitem.
+#
 # Binary Indexed Tree
 # Bit.add(i,x)    : add x at i-th value
 # Bit.sum(i)      : get sum up to i-th value
-# Bit.l_bound(w)  : get lower bound of index where w can be inserted
+# Bit.l_bound(w)  : get bound of index where x1+x2+...+xi<w
 
-class Bit:
+class Bit: # 1-indexed
     def __init__(self,n,init=None):
         self.size=n
         self.m=len(bin(self.size))-2
         self.arr=[0]*(2**self.m+1)
+        self.el=[0]*(2**self.m+1)
         if init!=None:
             for i in range(len(init)):
                 self.add(i,init[i])
+                self.el[i]=init[i]
 
     def __str__(self):
         a=[self.sum(i+1)-self.sum(i) for i in range(self.size)]
@@ -23,6 +27,7 @@ class Bit:
         
     def add(self,i,x):
         if not 0<i<=self.size:return NotImplemented
+        self.el[i]+=x
         while i<=self.size:
             self.arr[i]+=x
             i+=i&(-i)
@@ -37,6 +42,7 @@ class Bit:
         return rt
     
     def __getitem__(self,key):
+        return self.el[key]
         return self.sum(key+1)-self.sum(key)
 
     def __setitem__(self,key,value):
@@ -66,7 +72,7 @@ class Bit:
             k>>=1
         return x+1
         
-class Bit0(Bit):
+class Bit0(Bit): # 0-indexed
     def add(self,j,x):
         super().add(j+1,x)
     def l_bound(self,w):
