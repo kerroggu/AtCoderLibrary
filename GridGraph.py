@@ -5,6 +5,8 @@ class GridGraph:
     def __init__(self,h,w,search=None,replacement_of_found='.',mp_def={'#':1,'.':0},boundary=1):
         self.h=h+2
         self.w=w+2
+        self.n=self.h*self.w
+        self.edge=[[]for i in range(self.n)]
         self.nb=[-1,1,-w,w]
         #h,w,g,sg=GGI(h,w,search=['S','G'],replacement_of_found='.',mp_def={'#':1,'.':0},boundary=1) # sample usage
         self.mp=[boundary]*self.w
@@ -22,6 +24,17 @@ class GridGraph:
         self.mp+=[boundary]*self.w
         self.h,self.w,self.mp,self.found
         return
+
+    def create_edge(self,cost_func=lambda x,y:1):
+        for i in range(self.n):
+            if self.mp[i]==1:
+                continue
+            for di in self.nb:
+                nx=i+di
+                if self.mp[nx]!=1:
+                    self.edge[i].append((nx,cost_func(self.mp[i],self.mp[nx])))
+        return self.edge
+
 
     def dfs(self,x,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
         q=deque([x])
