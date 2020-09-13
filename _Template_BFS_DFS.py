@@ -1,3 +1,5 @@
+# Verified by https://atcoder.jp/contests/abc138/tasks/abc138_d
+#
 # x := start
 # edge := 隣接リスト = [[(node_j,distance_ij), (), (),,,], [(node_j,distance_ij), (),,,],,, ]
 # pr := previous node, prv := previous node's value, nx := next node, dist := distance between parent and next node
