@@ -1,102 +1,112 @@
-########################################################################################################################################################################
-# Verified by
-# https://atcoder.jp/contests/arc033/submissions/me
-# https://atcoder.jp/contests/abc174/tasks/abc174_f
-#
-# speed up TIPS: delete update of el. non-use of getitem, setitem.
-#
-# Binary Indexed Tree
-# Bit.add(i,x)    : add x at i-th value
-# Bit.sum(i)      : get sum up to i-th value
-# Bit.l_bound(w)  : get bound of index where x1+x2+...+xi<w
+## Segment Tree ##
 
-class Bit: # 1-indexed
-    def __init__(self,n,init=None):
+## Test case: ABC 146 F
+## https://atcoder.jp/contests/abc146/tasks/abc146_f
+
+## Initializer Template ##
+# Range Sum:        sg=SegTree(n)
+# Range Minimum:    sg=SegTree(n,inf,min,inf)
+
+class SegTree:
+    def __init__(self,n,init_val=0,function=lambda a,b:a+b,ide=0):
         self.size=n
-        self.m=self.size.bit_length()
-        self.arr=[0]*(2**self.m+1)
-        self.el=[0]*(2**self.m+1)
-        if init!=None:
-            for i in range(len(init)):
-                self.add(i,init[i])
-                self.el[i]=init[i]
-
-    def __str__(self):
-        a=[self.sum(i+1)-self.sum(i) for i in range(self.size)]
-        return str(a)
+        self.ide_ele=ide
+        self.num=1<<(self.size-1).bit_length()
+        self.table=[self.ide_ele]*2*self.num
+        self.index=[0]*2*self.num
+        self.lazy=[self.ide_ele]*2*self.num
+        self.func=function
+        #set_val
+        if not hasattr(init_val,"__iter__"):
+            init_val=[init_val]*self.size
+        for i,val in enumerate(init_val):
+            self.table[i+self.num-1]=val
+            self.index[i+self.num-1]=i
+        #build
+        for i in range(self.num-2,-1,-1):
+            self.table[i]=self.func(self.table[2*i+1],self.table[2*i+2])
+            if self.table[i]==self.table[i*2+1]:
+                self.index[i]=self.index[i*2+1]
+            else:
+                self.index[i]=self.index[i*2+2]
         
-    def add(self,i,x):
-        if not 0<i<=self.size:
-            raise IndexError('BIT add(x): index out of range. '+str(i)+' not in [0,'+str(self.size)+']')
-        self.el[i]+=x
-        while i<=self.size:
-            self.arr[i]+=x
-            i+=i&(-i)
-        return
+    def update(self,k,x):
+        k+=self.num-1
+        self.table[k]=x
+        while k:
+            k=(k-1)//2
+            res=self.func(self.table[k*2+1],self.table[k*2+2])
+            self.table[k]=res
+            
+            ## Remove if index is not needed
+            if res==self.table[k*2+1]:
+                self.index[k]=self.index[k*2+1]
+            else:
+                self.index[k]=self.index[k*2+2]
+            ## Remove if index is not needed
+        
+    def evaluate(k,l,r): #遅延評価処理
+        if lazy[k]!=0:
+            node[k]+=lazy[k]
+            if(r-l>1):
+                lazy[2*k+1]+=lazy[k]//2
+                lazy[2*k+2]+=lazy[k]//2
+
+        lazy[k]=0
     
-    def sum(self,i):
-        if not 0<=i<=self.size:
-            raise IndexError('BIT sum(x): index out of range. '+str(i)+' not in [0,'+str(self.size)+']')
-        rt=0
-        while i>0:
-            rt+=self.arr[i]
-            i-=i&(-i)
-        return rt
-
-    def __getitem__(self,key):
-        if type(key) is slice:
-            a=0 if key.start==None else key.start
-            b=self.size if key.stop==None else key.stop
-            if key.step!=None:return NotImplemented
-            return [self.sum(b)-self.sum(a)]
+    def query(self,p,q):
+        if q<=p:
+            return self.ide_ele
+        p+=self.num-1
+        q+=self.num-2
+        res=self.ide_ele
+        while q-p>1:
+            if p&1==0:
+                res=self.func(res,self.table[p])
+            if q&1==1:
+                res=self.func(res,self.table[q])
+                q-=1
+            p=p>>1
+            q=(q-1)>>1
+        if p==q:
+            res=self.func(res,self.table[p])
         else:
-            return self.el[key]
+            res=self.func(self.func(res,self.table[p]),self.table[q])
+        return res
+    
+    def query_id(self,p,q):
+        if q<=p:
+            return self.ide_ele
+        p+=self.num-1
+        q+=self.num-2
+        res=self.ide_ele
+        idx=p
+        while q-p>1:
+            if p&1==0:
+                res=self.func(res,self.table[p])
+                if res==self.table[p]:
+                    idx=self.index[p]
+            if q&1==1:
+                res=self.func(res,self.table[q])
+                if res==self.table[q]:
+                    idx=self.index[q]
+                q-=1
+            p=p>>1
+            q=(q-1)>>1
+        if p==q:
+            res=self.func(res,self.table[p])
+            if res==self.table[p]:
+                idx=self.index[p]
+        else:
+            res=self.func(self.func(res,self.table[p]),self.table[q])
+            if res==self.table[p]:
+                idx=self.index[p]
+            elif res==self.table[q]:
+                idx=self.index[q]
+        return idx
 
-    def __setitem__(self,key,value):
-        self.add(key,value+self.sum(key)-self.sum(key+1))
 
-    def l_bound(self,w):
-        if w<=0:
-            return 0
-        x=0
-        k=2**self.m
-        while k>0:
-            if x+k<=self.size and self.arr[x+k]<w:
-                w-=self.arr[x+k]
-                x+=k
-            k>>=1
-        return x+1
-        
-    def u_bound(self,w):
-        if w<=0:
-            return 0
-        x=0
-        k=2**self.m
-        while k>0:
-            if x+k<=self.size and self.arr[x+k]<=w:
-                w-=self.arr[x+k]
-                x+=k
-            k>>=1
-        return x+1
-        
-class Bit0(Bit): # 0-indexed
-    def add(self,j,x):
-        super().add(j+1,x)
-    def l_bound(self,w):
-        return max(super().l_bound(w)-1,0)
-    def u_bound(self,w):
-        return max(super().u_bound(w)-1,0)
-
-class Multiset(Bit0):
-    def __init__(self,max_v):
-        super().__init__(max_v)
-    def insert(self,x):
-        super().add(x,1)
-    def find(self,x):
-        return super().l_bound(super().sum(x))
     def __str__(self):
-        return str(self.arr)
-
-def compress(L):
-    dc={v:i for i,v in enumerate(sorted(set(L)))}
-    return [dc[i] for i in L]
+        # 生配列を表示
+        rt=self.table[self.num-1:self.num-1+self.size]
+        return str(rt)
