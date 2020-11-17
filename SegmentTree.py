@@ -53,7 +53,22 @@ class SegTree:
                 lazy[2*k+2]+=lazy[k]//2
 
         lazy[k]=0
-    
+
+    def __getitem__(self,key):
+        if type(key) is slice:
+            a=None if key.start==None else key.start
+            b=None if key.stop==None else key.stop
+            c=None if key.step==None else key.step
+            return self.table[self.num-1:self.num-1+self.size][slice(a,b,c)]
+        else:
+            if 0<=key<self.size:
+                return self.table[key+self.num-1]
+            else:
+                raise IndexError
+
+    def __setitem__(self,key,value):
+        self.update(key,value)
+
     def query(self,p,q):
         if q<=p:
             return self.ide_ele
