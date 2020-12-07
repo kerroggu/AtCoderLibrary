@@ -5,10 +5,11 @@
 #
 # speed up TIPS: delete update of el. non-use of getitem, setitem.
 #
-# Binary Indexed Tree
-# Bit.add(i,x)    : add x at i-th value
-# Bit.sum(i)      : get sum up to i-th value
-# Bit.l_bound(w)  : get bound of index where x1+x2+...+xi<w
+# Binary Indexed Tree     
+# Bit.add(i,x)      :Add x at i-th value, the following gives the same result
+#           Bit[i]+=x
+# Bit.sum(i)        : get sum up to i-th value
+# Bit.l_bound(w)    get bound of index where x1+x2+...+xi<w
 
 class Bit: # 1-indexed
     def __init__(self,n,init=None):
@@ -43,7 +44,7 @@ class Bit: # 1-indexed
     
     def __getitem__(self,key):
         return self.el[key]
-        return self.sum(key+1)-self.sum(key)
+        #return self.sum(key+1)-self.sum(key)
 
     def __setitem__(self,key,value):
         self.add(key,value-self.sum(key+1)+self.sum(key))
