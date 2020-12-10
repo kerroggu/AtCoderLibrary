@@ -63,11 +63,16 @@ class SegTree:
         else:
             if 0<=key<self.size:
                 return self.table[key+self.num-1]
+            elif -self.size<=key<0:
+                return self.table[self.size+key+self.num-1]
             else:
-                raise IndexError
+                raise IndexError("list index out of range")
 
     def __setitem__(self,key,value):
-        self.update(key,value)
+        if key>=0:
+            self.update(key,value)
+        else:
+            self.update(self.size+key,value)
 
     def query(self,p,q):
         if q<=p:
@@ -119,7 +124,6 @@ class SegTree:
             elif res==self.table[q]:
                 idx=self.index[q]
         return idx
-
 
     def __str__(self):
         # 生配列を表示
