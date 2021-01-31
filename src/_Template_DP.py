@@ -21,22 +21,23 @@ for i in range(n):
 
 
 # Bit subgroup DP     ------------------------------------------------------------------
-# https://atcoder.jp/contests/abc190/tasks/abc190_e
-# 
-n,m=LI()
-g,_=GI(n,m)
-chk=[None]*(1<<n)
-
-def is_cg(x):
-    if chk[x]!=None:return chk[x]
-    s=[j for j in range(n) if (x>>j)&1]
-    N=len(s)
-    for i in range(N):
-
-# TSP by Bit DP     ------------------------------------------------------------------
 # https://atcoder.jp/contests/abc187/tasks/abc187_f
-# https://atcoder.jp/contests/past202005-open/tasks/past202005_m
+# jはiの表すBit集合の部分集合を渡る。i,jの表すBit集合をS,Uとすると、dp[S]をdp[S/U] & dp[U] で更新。O(3^n)
 
+N=1<<n
+dp=[1 if check(i) else n for i in range(N)] 
+for i in range(N):
+    j=i
+    while j>0:        
+        dp[i]=min(dp[i],dp[j]+dp[i^j])
+        j-=1
+        j&=i
+
+        
+# TSP by Bit DP     ------------------------------------------------------------------
+# https://atcoder.jp/contests/abc190/tasks/abc190_e
+# https://atcoder.jp/contests/past202005-open/tasks/past202005_m
+#
 # k := 頂点数
 # d[u][v] := u-v間の距離
 # dp[i][S] := bit集合Sの頂点を訪れて頂点iに辿り着く場合の最小距離 (出発点が決まっている場合の初期化はdp[st][1<<st]=0)
