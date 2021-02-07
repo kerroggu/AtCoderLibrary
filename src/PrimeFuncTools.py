@@ -70,3 +70,15 @@ def extgcd(x,y):
     while r1!= 0:
         r0,r1,s0,s1=r1,r0%r1,s1,s0-r0//r1*s1
     return s0,(r0-s0*x)//y
+
+
+## returns the maximum integer rt s.t. rt*rt<=x
+## verified by ABC191D
+## https://atcoder.jp/contests/abc191/tasks/abc191_d
+def intsqrt(x):
+    if x<0:
+        return NotImplemented
+    rt=int(x**0.5)-1
+    while (rt+1)**2<=x:
+        rt+=1
+    return rt
