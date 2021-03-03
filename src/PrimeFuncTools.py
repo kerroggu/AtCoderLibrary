@@ -62,15 +62,35 @@ def LCM(b,mo=10**9+7):
             r%=mo
     return r
 
-## return (a,b) s.t. a*x+b*y=gcd(x,y)
+## return (a,b,gcd(x,y)) s.t. a*x+b*y=gcd(x,y)
 def extgcd(x,y):
     if y==0:
         return 1,0
     r0,r1,s0,s1 = x,y,1,0
     while r1!= 0:
         r0,r1,s0,s1=r1,r0%r1,s1,s0-r0//r1*s1
-    return s0,(r0-s0*x)//y
+    return s0,(r0-s0*x)//y,x*s0+y*(r0-s0*x)//y
 
+
+## return x,LCM(mods) s.t. x = rem_i (mod_i), x = -1 if such x doesn't exist
+## verified by ABC193E
+## https://atcoder.jp/contests/abc193/tasks/abc193_e
+def crt(rems,mods):
+    n=len(rems)
+    if n!=len(mods):
+        return NotImplemented
+    x,d=0,1
+    
+    for r,m in zip(rems,mods):
+        a,b,g=extgcd(d,m)
+        x,d=(m*b*x+d*a*r)//g,d*(m//g)
+        x%=d
+
+    for r,m in zip(rems,mods):
+        if r!=x%m:
+            return -1,d
+
+    return x,d
 
 ## returns the maximum integer rt s.t. rt*rt<=x
 ## verified by ABC191D
