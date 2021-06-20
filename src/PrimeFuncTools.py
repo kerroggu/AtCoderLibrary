@@ -24,11 +24,23 @@ def primeFactor(N):
     return ret
 
 ## return divisors of n as list
-def divisor(n):
+def divisors(n):
     div=[1]
     for i,j in primeFactor(n).items():
         div=[(i**k)*d for d in div for k in range(j+1)]
     return div
+
+## return the array s such that s[q] = the minimum prime factor of q
+def sieve(x):
+    s=[i for i in range(x+1)]
+    p=2
+    while p*p<=x:
+        if s[p]==p:
+            for q in range(2*p,x+1,p):
+                if s[q]==q:
+                    s[q]=p
+        p+=1
+    return s
 
 ## return the list of prime numbers in [2,N], using eratosthenes sieve
 ## around 800 ms for N = 10**6  by PyPy3 (7.3.0) @ AtCoder
