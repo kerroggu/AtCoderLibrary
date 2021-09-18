@@ -42,3 +42,36 @@ def dfs_tr(x,edge,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
                 v[nb]=func(c,v[c],nb,d)
                 dfs_tr+=nb,
     return v,dfs_tr
+
+w=I()
+h=I()
+mp=[]
+for i in range(h):
+    a=LI()
+    mp+=a,
+ 
+
+
+# Verified by https://atcoder.jp/contests/joi2009yo/tasks/joi2009yo_d
+# 再帰DFSでの経路全探索
+
+ans=0
+def dfs(ls):
+    global ans
+    ans=max(ans,len(ls))
+    r,c=ls[-1]
+    for dr,dc in FourNb:
+        nr=r+dr
+        nc=c+dc
+        if 0<=nr<h and 0<=nc<w and mp[nr][nc] and ((nr,nc) not in ls):
+            mp[nr][nc]=0
+            dfs(ls+[(nr,nc)])
+    mp[r][c]=1
+
+for i in range(h):
+    for j in range(w):
+        if mp[i][j]==1:
+            mp[i][j]=0
+            dfs([(i,j)])
+
+print(ans)
