@@ -17,6 +17,18 @@ def dfs(x,edge,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
                 v[nb]=func(c,v[c],nb,d)
     return v
 
+q=deque([x])
+v=[None]*len(g)
+v[x]=0
+while q:
+    c=q.pop()
+    for nb in g[c]:
+        if v[nb]==None:
+            q.append(nb)
+            v[nb]=v[c]+1
+
+####################################################################################
+
 def bfs(x,edge,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
     q=deque([x])
     v=[None]*len(edge)
@@ -28,6 +40,18 @@ def bfs(x,edge,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
                 q.append(nb)
                 v[nb]=func(c,v[c],nb,d)
     return v
+
+q=deque([x])
+v=[None]*len(g)
+v[x]=0
+while q:
+    c=q.popleft()
+    for nb in g[c]:
+        if v[nb]==None:
+            q.append(nb)
+            v[nb]=v[c]+1
+
+####################################################################################
 
 def dfs_tr(x,edge,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
     q=deque([x])
@@ -43,17 +67,17 @@ def dfs_tr(x,edge,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
                 dfs_tr+=nb,
     return v,dfs_tr
 
+####################################################################################
+
+# Verified by https://atcoder.jp/contests/joi2009yo/tasks/joi2009yo_d
+# 再帰DFSでの経路全探索
+
 w=I()
 h=I()
 mp=[]
 for i in range(h):
     a=LI()
     mp+=a,
- 
-
-
-# Verified by https://atcoder.jp/contests/joi2009yo/tasks/joi2009yo_d
-# 再帰DFSでの経路全探索
 
 ans=0
 def dfs(ls):
