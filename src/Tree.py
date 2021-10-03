@@ -59,7 +59,7 @@ class Tree:
         return v
  
     def parent(self,x):
-        return self.dfs(0,func=lambda pr,prv,nx,dist:pr,root_v=-1)
+        return self.dfs(x,func=lambda pr,prv,nx,dist:pr,root_v=-1)
  
     def topological_sort(self,x):  # return topological sort of the tree
         tps=[]
