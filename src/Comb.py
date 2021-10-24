@@ -2,8 +2,8 @@
 ## https://atcoder.jp/contests/abc215/tasks/abc215_g
 
 class Comb:
-    def __init__(self,n,mo=10**9+7):
-        self.size=1
+    def __init__(self,n=0,mo=10**9+7):
+        self.size=n+1
         self.mo=mo
         self.fac=[0]*self.size
         self.inv=[1]*self.size
@@ -21,7 +21,7 @@ class Comb:
             self.inv[-1]%=self.mo
         self.inv[-1]=pow(self.inv[-1],self.mo-2,self.mo)
         self.inv[-1]*=self.inv[self.size-1]
-        self.inv[-1]%=mo
+        self.inv[-1]%=self.mo
         for i in range(x+self.size-1,self.size,-1):
             self.inv[i-1]=self.inv[i]*(i)%self.mo
         self.size+=x
@@ -36,14 +36,14 @@ class Comb:
     def comb(self,x,y):
         if y<0 or y>x:
             return 0
-        if x>self.size-1:
+        if x>=self.size:
             self.extend(x)
         return self.fac[x]*self.inv[x-y]*self.inv[y]%self.mo
 
     def rcomb(self,x,y):
         if y<0 or y>x:
             return 0
-        if x>self.size:
+        if x>=self.size:
             self.extend(x)
         return self.inv[x]*self.fac[x-y]*self.fac[y]%self.mo
 
