@@ -28,9 +28,13 @@ class Comb:
         return
     
     def fact(self,n):
+        if n>=self.size:
+            self.extend(n)
         return self.fac[n]
         
     def invf(self,n):
+        if n>=self.size:
+            self.extend(n)
         return self.inv[n]
 
     def comb(self,x,y):
