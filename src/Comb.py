@@ -1,9 +1,7 @@
-## Verified by ABC 215-G
-## https://atcoder.jp/contests/abc215/tasks/abc215_g
 
 class Comb:
     def __init__(self,n=0,mo=10**9+7):
-        self.size=n+1
+        self.size=1
         self.mo=mo
         self.fac=[0]*self.size
         self.inv=[1]*self.size
