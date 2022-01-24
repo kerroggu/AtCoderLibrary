@@ -1,3 +1,7 @@
+## Typical bug/TIPS
+## modを取らなすぎ/取りすぎ
+## listの1次元化で高速化
+
 ## Verified by Yukicoder 1073
 ## https://yukicoder.me/problems/no/1073
 ##
