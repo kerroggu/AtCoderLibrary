@@ -1,3 +1,5 @@
+####################################################################################
+# DFS
 # Verified by https://atcoder.jp/contests/abc138/tasks/abc138_d
 #
 # x := start
@@ -28,6 +30,7 @@ while q:
             v[nb]=v[c]+1
 
 ####################################################################################
+# BFS
 
 def bfs(x,edge,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
     q=deque([x])
@@ -52,6 +55,7 @@ while q:
             v[nb]=v[c]+1
 
 ####################################################################################
+# DFS tour for Tree
 
 def dfs_tr(x,edge,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
     q=deque([x])
@@ -68,9 +72,8 @@ def dfs_tr(x,edge,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
     return v,dfs_tr
 
 ####################################################################################
-
-# Verified by https://atcoder.jp/contests/joi2009yo/tasks/joi2009yo_d
 # 再帰DFSでの経路全探索
+# Verified by https://atcoder.jp/contests/joi2009yo/tasks/joi2009yo_d
 
 w=I()
 h=I()
