@@ -21,7 +21,8 @@ class matrix:
         "mult is not applicable between the two matrices given"
         pass
 
-    def __init__(self,arr_input):
+    def __init__(self,arr_input,mod=10**9+7):
+        self.mod=mod
         if hasattr(arr_input[0],"__getitem__"):
             self.arr=arr_input
         else:
@@ -112,7 +113,7 @@ class matrix:
     def __imod__(self,p):
         return self.__mod__(p)
 
-    def __pow__(self,p,mod=10**9+7):
+    def __pow__(self,p):
         if type(p)!=int or self.shape[0]!=self.shape[1]:
             return NotImplemented
         A=matrix(self.arr)
@@ -120,9 +121,9 @@ class matrix:
         while p>0:
             if p&1:
                 R*=A
-                R%=mod
+                R%=self.mod
             A*=A
-            A%=mod
+            A%=self.mod
             p>>=1
         return R
 
