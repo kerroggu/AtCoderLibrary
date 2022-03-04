@@ -77,3 +77,37 @@ for i in range(1<<k):
                     #show(bin(i)[2:],bin(prev)[2:],((bef,j),dist[bef][t[j]]),dp)
 ans=inf
 for i in range(k):ans=min(ans,dp[i][-1])
+
+
+# 期待値DP     ------------------------------------------------------------------
+# https://atcoder.jp/contests/past202012-open/tasks/past202012_k
+
+for i,c in enumerate(t[::-1]):
+    if c=='#':
+        z+=1<<i
+h=w=4
+D=h*w
+d=[0]*(1<<D)
+
+areas=[[p+i for i in [-1,0,1,-w,w]if 0<=p+i<D and ((p+i)//w==p//w or (p+i)%w==p%w)] for p in range(D)]
+for x in range(1,1<<D):
+    ans=inf
+    for t in range(D): # t = target, q = No of out of space
+        q=5-len(areas[t])
+        c=5
+        rt=q/c
+        m=1-q/c
+        
+        hit=0
+        for p in areas[t]:
+            if x&(1<<p):
+                rt+=(d[(x^(1<<p))]+1)/c
+                hit+=1
+            else:
+                rt+=1/c
+                m-=1/c
+        if hit!=0: # to avoid 0 divide
+            ans=min(rt/m,ans)
+    d[x]=ans
+
+print(d[z])
