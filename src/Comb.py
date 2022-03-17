@@ -62,3 +62,9 @@ def Golf_Comb(x,y,n=10**5,M=10**9+7):
     for i in range(n):F+=F[i]*-~i%M,
     C=lambda A,B:F[A]*pow(F[A-B]*F[B],M-2,M)%M
     return C(x,y)
+def Golf_Comb_2(x,y,K,M=10**9+7):
+    F=1,
+    I=1,
+    for i in R(K):F+=F[i]*-~i%M,;I+=pow(F[-1],M-2,M),
+    return F[x]*I[x-y]*I[y]%M
+    
