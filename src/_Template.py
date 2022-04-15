@@ -25,13 +25,9 @@ def RI(a=1,b=10):return random.randint(a,b)
 def INP():
     N=6
     n=random.randint(1,N)
-    m=random.randint(1,N)
-    b=random.randint(1,n)
-    w=random.randint(1,m)
-    mn=0
-    mx=n
-    #a=[random.randint(mn,mx) for i in range(n)]
-    return n,m,b,w
+    mn,mx=0,n
+    a=[random.randint(mn,mx) for i in range(n)]
+    return n,a
 def Rtest(T):
     case,err=0,0
     for i in range(T):
@@ -92,9 +88,22 @@ def gcd(x,y):
     if x%y==0:return y
     while x%y!=0:x,y=y,x%y
     return y
+def RLE(it):
+    rt=[]
+    for i in it:
+        if rt and rt[-1][0]==i:rt[-1][1]+=1
+        else:rt+=[i,1],
+    return rt
 def YN(x):print(['NO','YES'][x])
 def Yn(x):print(['No','Yes'][x])
 def show(*inp,end='\n'):
     if show_flg:print(*inp,end=end)
 def gcj(t,*a):
     print('Case #{}:'.format(t+1),*a)
+
+mo=10**9+7
+#mo=998244353
+inf=float('inf')
+FourNb=[(-1,0),(1,0),(0,1),(0,-1)];EightNb=[(-1,0),(1,0),(0,1),(0,-1),(1,1),(-1,-1),(1,-1),(-1,1)];compas=dict(zip('WENS',FourNb));cursol=dict(zip('LRUD',FourNb))
+alp=[chr(ord('a')+i)for i in range(26)]
+#sys.setrecursionlimit(10**7)
