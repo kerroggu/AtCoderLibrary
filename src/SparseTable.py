@@ -1,10 +1,14 @@
+## Tested by ABC254-F
+## https://atcoder.jp/contests/abc254/tasks/abc254_f
 ## Tested by EduFor 88 D
 ## https://codeforces.com/contest/1359/problem/D
 
+## Init with min: SparseTable(list_a,init_func=min)
+## Init with gcd: SparseTable(list_a,init_func=gcd)
+
 class SparseTable: # O(N log N) for init, O(1) for query(l,r)
-    def __init__(self,ls,init_func=min,init_idl=float('inf')):
+    def __init__(self,ls,init_func=min):
         self.func=init_func
-        self.idl=init_idl
         self.size=len(ls)
         self.N0=self.size.bit_length()
         self.table=[ls[:]]
