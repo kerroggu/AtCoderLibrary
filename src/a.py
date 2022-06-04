@@ -253,6 +253,8 @@ d=[]
 for i in range(n-1):
     c+=a[i+1]-a[i],
     d+=b[i+1]-b[i],
+c+=1,
+d+=1,
 # Range Minimum:    sg=SegTree(n,inf,min,inf)
 #sg1=SparseTable(c,init_func=gcd,init_idl=1)
 #sg2=SparseTable(d,init_func=gcd,init_idl=1)
@@ -263,6 +265,8 @@ for i in range(n-1):
     sg1.update(i,c[i])
     sg2.update(i,d[i])
 
+#show(c,sg1)
+#show(d,sg2)
 
 
 for i in range(q):
@@ -276,9 +280,9 @@ for i in range(q):
         g2=sg2.query(w1,w2)
     else:
         g2=a[h1]+b[w1]
-    #g=gcd(a[h1]+b[w1])
     g=a[h1]+b[w1]
-    #show((g,g1,g2),(h1,h2,w1,w2))
+    #show(g,g1,g2)
     ans=gcd(g,gcd(g1,g2))
-    if ans<0:ans=-ans
+    if ans<0:
+      ans=-ans
     print(ans)
