@@ -1,4 +1,3 @@
-
 class Comb:
     def __init__(self,n=0,mo=10**9+7):
         self.size=1
@@ -56,15 +55,18 @@ class Comb:
             self.extend(x)
         return self.fac[2*x]*self.inv[x]*self.inv[x+1]%self.mo
 
-def Golf_Comb(x,y,n=10**5,M=10**9+7):
+def Golf_Comb():
     M=10**9+7
     F=[1]
     for i in range(n):F+=F[i]*-~i%M,
     C=lambda A,B:F[A]*pow(F[A-B]*F[B],M-2,M)%M
     return C(x,y)
-def Golf_Comb_2(x,y,K,M=10**9+7):
+def Golf_Comb_2():
     F=1,
     I=1,
-    for i in R(K):F+=F[i]*-~i%M,;I+=pow(F[-1],M-2,M),
+    for i in range(K):F+=F[i]*-~i%M,;I+=pow(F[-1],M-2,M),
     return F[x]*I[x-y]*I[y]%M
-    
+def Golf_Comb_3():
+    F=1,
+    for i in range(n):F+=F[i]*-~i%M,
+    C=lambda x,y:F[x]*pow(F[x-y]*F[y],M-2,M)if x>=y>=0else 0
