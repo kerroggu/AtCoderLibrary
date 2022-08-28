@@ -70,3 +70,7 @@ def Golf_Comb_3():
     F=1,
     for i in range(n):F+=F[i]*-~i%M,
     C=lambda x,y:F[x]*pow(F[x-y]*F[y],M-2,M)if x>=y>=0else 0
+def Golf_Comb_4():
+    n,m,*I=map(int,input().split())
+    F=[1]
+    for i in range(n):F+=F[i]*-~i%M,;I+=pow(F[i],M-2,M),
