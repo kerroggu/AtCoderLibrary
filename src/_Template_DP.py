@@ -111,3 +111,27 @@ for x in range(1,1<<D):
     d[x]=ans
 
 print(d[z])
+
+# 部分列DP     ------------------------------------------------------------------
+# https://atcoder.jp/contests/past202206-open/tasks/past202206_k
+
+def count_subsequence(a,w=26,mo=998244353):
+    n=len(a)
+    d=[0]*n
+    p=[[-1]*(n+1) for i in range(w)]
+    for i in range(n-1,-1,-1):
+        for j in range(w):
+            p[j][i]=p[j][i+1] if j!=a[i] else i
+    
+    for j in range(w): # set 1 for 1 character substring
+        if p[j][0]!=-1:
+            d[p[j][0]]=1
+    
+    for i in range(n):
+        for j in range(w):
+            nx=p[j][i+1]
+            if nx!=-1:
+                d[nx]+=d[i]
+                d[nx]%=mo
+    return sum(d),p
+ 
