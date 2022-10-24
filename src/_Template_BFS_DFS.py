@@ -72,6 +72,12 @@ def dfs_tr(x,edge,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
     return v,dfs_tr
 
 ####################################################################################
+# 01BFS
+# ダイクストラみたいに探索済でも距離が更新できるなら再プッシュ
+# https://atcoder.jp/contests/abc246/editorial/3702
+
+
+####################################################################################
 # 再帰DFSでの経路全探索
 # Verified by https://atcoder.jp/contests/joi2009yo/tasks/joi2009yo_d
 
