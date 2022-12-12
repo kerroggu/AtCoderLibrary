@@ -10,7 +10,7 @@
 #           Bit[i]+=x
 # Bit.sum(i)        : get sum up to i-th value
 # Bit.l_bound(w)    get bound of index where x1+x2+...+xi<w
- 
+
 class Bit: # 1-indexed
     def __init__(self,n,init=None):
         self.size=n
@@ -21,7 +21,7 @@ class Bit: # 1-indexed
             for i in range(len(init)):
                 self.add(i,init[i])
                 self.el[i]=init[i]
- 
+
     def __str__(self):
         a=[self.sum(i+1)-self.sum(i) for i in range(self.size)]
         return str(a)
@@ -45,10 +45,10 @@ class Bit: # 1-indexed
     def __getitem__(self,key):
         return self.el[key]
         #return self.sum(key+1)-self.sum(key)
- 
+
     def __setitem__(self,key,value):
         self.add(key,value-self.sum(key+1)+self.sum(key))
- 
+
     def l_bound(self,w):
         if w<=0:
             return 0
@@ -92,7 +92,7 @@ class Multiset(Bit0):
         return super().l_bound(super().sum(x))
     def __str__(self):
         return str(self.arr)
- 
+
 def compress(L):
     dc={v:i for i,v in enumerate(sorted(set(L)))}
     rdc={dc[i]:i for i in L}
