@@ -30,6 +30,30 @@ while q:
             v[nb]=v[c]+1
 
 ####################################################################################
+## 非再帰バックトラックDFS
+## Veryfied by ABC 284-E
+## https://atcoder.jp/contests/abc284/tasks/abc284_e
+
+q=deque()
+q+=x,
+v=[None]*n
+v[x]=1
+
+while q:
+    c=q.pop()
+    if c<0: # 帰りがけ
+        ce=~c
+        v[ce]=None
+    else: # 行きがけ
+        ans+=1
+        ce=c
+        q+=~ce,
+        v[ce]=1
+        for nb,d in g[ce]:
+            if v[nb]==None:
+                q+=nb,
+
+####################################################################################
 # BFS
 
 def bfs(x,edge,func=lambda pr,prv,nx,dist:prv+dist,root_v=0):
