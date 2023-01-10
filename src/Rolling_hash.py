@@ -1,6 +1,8 @@
 # veryfied by ABC284F
 # https://atcoder.jp/contests/abc284/tasks/abc284_f
 
+# 複数インスタンス生成してハッシュ比較する時はbaseとmodを同じにするように。(TBD)初期化時にbaseとmodをシングルトンで作る。
+
 # sample
 #
 # mo=10**9+7
@@ -38,7 +40,7 @@ class RollingHash():
             l,r=args
             return (self.hash[r] - self.hash[l])*self.rp[self.n-r]%self.mod
 
-    def concat(self,l1,r1,l2,r2):
+    def concat(self,l1,r1,l2,r2): # [l1,r1) + [l2,r2) を列として見たハッシュを返す。
         return (self.get(l1,r1)*self.pw[r2-l2+1]+self.get(l2,r2) )%self.mod
 
     def __str__(self):
