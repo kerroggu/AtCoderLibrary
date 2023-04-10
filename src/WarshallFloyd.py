@@ -7,8 +7,11 @@ def change2mat(d): # convert neiber list typr graph to matrix type graph
             dist[i][v]=l
     return dist
 
-def wf_mat(d):  # Matrix type wf
-    n=len(d)
+def wf_mat(x):  # Matrix type wf
+    n=len(x)
+    d=[]
+    for i in range(n):
+        d+=x[i][:],
     for k in range(n):
         for i in range(n):
             for j in range(n):
