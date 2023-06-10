@@ -35,23 +35,24 @@ while q:
 ## https://atcoder.jp/contests/abc284/tasks/abc284_e
 
 q=deque()
-q+=x,
+q+=(x,x),
 v=[None]*n
-v[x]=1
+v[x]=0
 
 while q:
-    c=q.pop()
+    c,fr=q.pop()
     if c<0: # 帰りがけ
         ce=~c
         v[ce]=None
+        show('v back',fr)
     else: # 行きがけ
         ans+=1
         ce=c
-        q+=~ce,
+        q+=(~ce,fr),
         v[ce]=1
-        for nb,d in g[ce]:
+        for nb,_ in g[ce]:
             if v[nb]==None:
-                q+=nb,
+                q+=(nb,c),
 
 ####################################################################################
 # BFS
