@@ -129,3 +129,8 @@ class SegTree:
         # 生配列を表示
         rt=self.table[self.num-1:self.num-1+self.size]
         return str(rt)
+
+def golf_update(x,p):
+ p+=t-1;s[p]=x
+ while p:s[p//2]=max(s[p],s[p^1]);p//=2
+ return
