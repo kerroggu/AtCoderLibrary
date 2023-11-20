@@ -9,6 +9,8 @@ a=map(int,[*open(0)][1].split())
 ###  x\n y\n z\n -> a=[x,y,z]
 *a,=map(int,open(0))
 
+###  Graph, n m\n a1 b1\n a2 b2\n ... -> n,m,I
+(n,m),*I=[map(int,i.split())for i in open(0)]
 
 ################## combination ##################
 
