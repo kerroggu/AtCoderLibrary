@@ -134,7 +134,7 @@ def LCM(b,mo=10**9+7):
 ## return (a,b,gcd(x,y)) s.t. a*x+b*y=gcd(x,y)
 def extgcd(x,y):
     if y==0:
-        return 1,0
+        return 1,0,x
     r0,r1,s0,s1 = x,y,1,0
     while r1!= 0:
         r0,r1,s0,s1=r1,r0%r1,s1,s0-r0//r1*s1
