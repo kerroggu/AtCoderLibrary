@@ -9,9 +9,12 @@ class seg():
         self.N0 = 2**self.LV
         self.data = [0]*(2*self.N0)
         self.lazy = [0]*(2*self.N0)
+
+    def get_table(self):
+        return self.data[2**sg.LV-1:2**sg.LV-1+n]
         
-    def show(self):
-        return self.data
+    def __str__(self):
+        return str(self.data[2**sg.LV-1:2**sg.LV-1+n])
         
     def gindex(self, l, r):
         L = (l + self.N0) >> 1; R = (r + self.N0) >> 1
