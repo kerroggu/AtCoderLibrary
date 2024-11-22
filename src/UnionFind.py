@@ -10,13 +10,16 @@ class UnionFind:
         self.parent=[-1]*n
         # 連結成分の個数を管理
         self._size=[1]*n
+        # 何か管理するデータを追加する時 self._left=list(range(n))
  
     def root(self,x):
         if self.parent[x]<0:
             return x
         else:
             # 経路の圧縮
+            # 何か管理するデータを追加する時 self._left[self.parent[x]]=min(self._left[self.parent[x]],self._left[self.parent[x]])
             self.parent[x]=self.root(self.parent[x])
+            # 何か管理するデータを追加する時 self._left[self.parent[x]]=min(self._left[self.parent[x]],self._left[self.parent[x]])
             return self.parent[x]
  
     def same(self,x,y):
@@ -38,7 +41,10 @@ class UnionFind:
         else:
             self.parent[r1]=r2
             self._size[r2]+=self._size[r1]
-    
+        # 何か管理するデータを追加する時 rootを取ると経路圧縮が起こるのでr1,r2を使って更新する
+        # 何か管理するデータを追加する時 self._left[r1]=min(self._left[r1],self._left[r2])
+        # 何か管理するデータを追加する時 self._left[r2]=min(self._left[r1],self._left[r2])
+
     def size(self,x):
         return self._size[self.root(x)]
         
