@@ -1,3 +1,4 @@
+#AHC003
 
 class multi_gauss_dist_bayes:
     def __init__(self, N, m, mean, cov=[], R=1):
